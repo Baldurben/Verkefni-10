@@ -11,8 +11,11 @@ let image; // object sem inniheldur núverandi mynd á forsíðu.
  * Sækir nýja Mynd af handahófi frá Nasa API og birtir hana á forsíðunni
  * ásamt titli og texta.
  */
-function getNewImage() {
+import getRandomImage from "nasa-api";
 
+ 
+function getNewImage() {
+	console.log(getRandomImage);
 }
 
 /*
