@@ -10,27 +10,19 @@ const URL = 'https://api.nasa.gov/planetary/apod';
 
 
 function randomdate(min, max) {
-	var month = Math.floor(Math.random() * 12) + 1 
-	var numday = 0;
-	var year = 2019;
-	if(month == 4 || month == 6 || month == 9 || month == 11) {
-		numday = 30;
-    }
-	else {
-		numday = 31;
-	}
-	//min = Math.ceil(min);
-   // max = Math.floor(max);
-   // return Math.floor(Math.random() * (max - min + 1)) + min;
-	console.log(month);
-	console.log(numday);
-	return year + "-" + month + "-" + numday
-}
-
-function getapi() {
+	var d = new Date();
+	var dd = d.getDate();
+	var mm = d.getMonth(); 
+	var yyyy = d.getFullYear();
+	var ceiling = new Date(yyyy, mm, dd);
+	var floor = new Date(1995, 0o5, 16);
+	var rnddate = new Date(+floor + Math.random() * (+ceiling - +floor));
 	
+	var month = rnddate.getMonth()+1;
 
+	return rnddate.getFullYear() + '-' + month + '-' + rnddate.getDate();
 }
+
 
 
 /**
@@ -40,21 +32,13 @@ function getapi() {
  */
 export default async function getRandomImage() {
 	let API_URL = URL + "?api_key=" + API_KEY + "&date=" + randomdate();
-	console.log(API_URL);
-	fetch(API_URL)
-	.then(results => {
-		if(!results.ok) {
-			throw new Error("Non 200 status");
-		}
-	return results.json();
-	})
-	.then(data => {
-		console.log(data);
-	})
+	const data = await fetch(API_URL);
+    const results = await data.json();
+	return (results);
 }
 
 
 document.addEventListener('DOMContentLoaded', (event) => {
     getRandomImage();
 });
-document.getElementById("new-image-button").addEventListener('click', getRandomImage);
+	

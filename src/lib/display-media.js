@@ -11,11 +11,28 @@ let image; // object sem inniheldur núverandi mynd á forsíðu.
  * Sækir nýja Mynd af handahófi frá Nasa API og birtir hana á forsíðunni
  * ásamt titli og texta.
  */
-import getRandomImage from "nasa-api";
+ 
+document.getElementById("new-image-button").addEventListener('click', getNewImage);
+
+import getRandomImage from "./nasa-api";
 
  
-function getNewImage() {
-	console.log(getRandomImage);
+function getNewImage(e) {
+	e.preventDefault();
+	var img = document.createElement("img");
+	var getter = getRandomImage().then(function(result) {
+	const {copyright, date, explanation, hdurl, media_type, title, url} = result;
+		img.crossOrigin = "anonymous";
+		img.setAttribute("src", hdurl);
+		console.log(hdurl);
+		console.log(img);
+	})
+	document.body.appendChild(img);
+	//console.log(getter);
+
+	document.body.innerHTML = img;
+	//console.log(getRandomImage());
+	
 }
 
 /*
