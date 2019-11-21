@@ -12,34 +12,43 @@ let image; // object sem inniheldur núverandi mynd á forsíðu.
  * ásamt titli og texta.
  */
  
-document.getElementById("new-image-button").addEventListener('click', getNewImage);
+
 
 import getRandomImage from "./nasa-api";
 
- 
-function getNewImage(e) {
-	e.preventDefault();
-	var img = document.createElement("img");
-	var getter = getRandomImage().then(function(result) {
-	const {copyright, date, explanation, hdurl, media_type, title, url} = result;
-		img.crossOrigin = "anonymous";
-		img.setAttribute("src", hdurl);
-		console.log(hdurl);
-		console.log(img);
-	})
-	document.body.appendChild(img);
-	//console.log(getter);
+	document.addEventListener('DOMContentLoaded', (event) => {
+		getAllMedia();
+	});
 
-	document.body.innerHTML = img;
-	//console.log(getRandomImage());
+ 
+function getAllMedia() {
+	getRandomImage().then(function(result) {
+	const {copyright, date, explanation, hdurl, media_type, title, url} = result;
+	getNewImage(url);
+	getNewText(explanation);
+	getNewTitle(title);
+	})
+	console.log(result);
+}
+
+function getNewImage(hdurl) {
+	document.querySelector('.apod__image').setAttribute("src", hdurl);
 	
+}
+function getNewText(explanation) {
+	document.querySelector('.apod__text').innerHTML = explanation; 
+}
+function getNewTitle(title) {
+	document.querySelector('.apod__title').innerHTML = title;
 }
 
 /*
  * Vistar núverandi mynd í storage.
  */
 function saveCurrentImage() {
-
+	img = getAllMedia();
+	console.log(img);
+	window.localStorage.setItem();
 }
 
 /*
@@ -47,6 +56,8 @@ function saveCurrentImage() {
  *
  */
 export default function init(apod) {
+	document.getElementById("new-image-button").addEventListener('click', getAllMedia);
+	document.getElementById("save-image-button").addEventListener('click', saveCurrentImage);
 
 }
 
